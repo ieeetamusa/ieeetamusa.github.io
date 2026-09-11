@@ -1,0 +1,174 @@
+/* CSS WRITTEN BY ALEXANDRO RODRIGUEZ SEP 10 2026 */
+body {
+  margin: 0px;
+  font-family: sans-serif;
+}
+/* CSS FOR THE BANNER */
+.banner {
+  background: #069;
+  padding:1em;
+  border-bottom: solid #005b89 2px;
+}
+.logo {
+  max-height: 5em;
+  border-radius: 1em;
+  background:white;
+  float:left;
+}
+.logo-IEEE {
+  height: 2.3em;
+  border-radius: .25em;
+  background:white;
+  padding: .25em;
+  float:right;
+}
+.links {
+  text-align:left;
+}
+.banner-link {
+  text-align:center;
+  display: inline-block;
+  padding: 1.6em 2.3em;
+  color: #ffffff;
+  font-size:1.2em;
+  text-decoration:none;
+}
+.banner-link:hover {
+  text-decoration:underline;
+}
+@media only screen and (max-width: 1317px) {
+  .links {
+    margin-top: 5em;
+    text-align: center;
+  }
+}
+@media only screen and (max-width: 865px) {
+  .links {
+     margin-top: 3em;
+  }
+  .logo {
+    max-height: 2.8em;
+  }
+  .banner-link {
+    padding: .2em .4em;
+    font-size: 1em;
+  }
+}
+/* CSS FOR THE CONTENT */
+.title {
+  text-align: center;
+  margin: 7em 7em 5em;
+}
+h1 {
+  font-size:3em;
+}
+p {
+  color: #666;
+  font-size: 1.2em;
+}
+h2 {
+  font-size:2em;
+}
+.join-button, .RSVP {
+  padding:.7em;
+  text-align:center;
+  border-radius:.25em;
+  background: #069;
+  color:white;
+  display: inline-block;
+  margin-top:2em;
+  text-decoration:none;
+}
+.join-button:hover, .RSVP:hover {
+  background: #0077b3;
+}
+.social-content {
+  margin-top:5em;
+}
+.sC {
+  display:inline-block;
+  padding: 1em;
+  border: 2px solid #CCC;
+  border-radius:.25em;
+  color: #666;
+}
+.sCT {
+  color: #069;
+  text-decoration:none;
+  font-weight:bold;
+}
+.sCT:hover {
+  color: #0077b3;
+}
+.description {
+  margin: 3em 3em 1em;
+  border: solid 2px #CCC;
+  border-radius: .25em;
+  padding:1em 3em;
+}
+/* FOOTER */
+.footer {
+  padding:2em;
+  background: #DDD;
+  border-top: solid #CCCCCC 2px;
+}
+a.footer {
+  color: #111;
+}
+.socials {
+
+}
+/* MEMBERSHIP CONTENT */
+.membership {
+  text-align:center;
+  margin: 12em 0px 15em;
+}
+.membership-button {
+  display:inline-block;
+  border: solid 2px #CCC;
+  padding:2em; 
+}
+.mT, .mTA {
+  border-radius: .25em;
+  background: #069;
+  color: white;
+  padding:1em;
+  text-decoration: none;
+}
+.mTA {
+  background: white;
+  color:#666;
+  border:solid #CCC 1px;
+}
+.mT:hover {
+  background: #0077b3;
+}
+.mTA:hover {
+  background: #DDD;
+}
+/* CSS FOR EVENTS PAGE */
+.upcoming-events {
+  margin:5em 2em 20em;
+}
+.uET {
+  font-size:2em;
+  margin:2em 0px;
+}
+.event-container {
+  border: solid 2px #CCC;
+  border-radius: .25em;
+  padding: 2em;
+  max-width: 26em;
+  display:inline-block;
+}
+.RSVP {
+  margin:0px;
+  display:block;
+}
+.eT {
+  font-weight: bold;
+}
+.eD {
+  color: #666;
+}
+
