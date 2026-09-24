@@ -36,24 +36,7 @@ body {
 .banner-link:hover {
   text-decoration:underline;
 }
-@media only screen and (max-width: 1317px) {
-  .links {
-    margin-top: 5em;
-    text-align: center;
-  }
-}
-@media only screen and (max-width: 865px) {
-  .links {
-     margin-top: 3em;
-  }
-  .logo {
-    max-height: 2.8em;
-  }
-  .banner-link {
-    padding: .2em .4em;
-    font-size: 1em;
-  }
-}
+
 /* CSS FOR THE CONTENT */
 .title {
   text-align: center;
@@ -171,4 +154,27 @@ a.footer {
 .eD {
   color: #666;
 }
-
+@media only screen and (max-width: 1317px) {
+  .links {
+    margin-top: 5em;
+    text-align: center;
+  }
+}
+@media only screen and (max-width: 865px) {
+  .links {
+     margin-top: 3em;
+  }
+  .logo {
+    max-height: 2.8em;
+  }
+  .banner-link {
+    padding: .2em .4em;
+    font-size: 1em;
+  }
+  h1 {
+   font-size:2em;
+  }
+  .title {
+     margin:5em 0em;
+   }
+}
