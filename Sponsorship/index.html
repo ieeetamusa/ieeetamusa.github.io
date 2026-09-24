@@ -2,10 +2,10 @@
 <html lang="en-US">
 <head>
 <meta charset="UTF-8">
-<meta name="description" content="Resources - IEEE TAMUSA Student Branch">
+<meta name="description" content="Sponsorship - IEEE TAMUSA Student Branch">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="white">
-<title>Resources | IEEE TAMUSA</title>
+<title>Sponsorship | IEEE TAMUSA</title>
 <link rel="icon" href="/cropped-tamusa_bb_Logo-Black-32x32.png">
 <link href="/style.css" rel="stylesheet" type="text/css">
 
@@ -22,9 +22,16 @@
 <a class="banner-link" href="/Contact">Contact</a></div>
 </div>
 <main class="page">
-<h1>Resources</h1>
-<p class="page-intro">Useful links, documents, opportunities, and engineering resources shared by IEEE TAMUSA officials.</p>
-<div id="resource-list" class="card-grid"><div class="notice">Loading resources...</div></div>
+<h1>Sponsorship</h1>
+<p class="page-intro">Support student engineers at Texas A&amp;M University-San Antonio. Sponsorship helps us provide technical workshops, professional-development programs, student projects, networking opportunities, and community activities.</p>
+<div class="card-grid">
+<div class="card"><h3>Industry Sponsorship</h3><p>Support events, workshops, equipment, speakers, student activities, or other branch programs.</p></div>
+<div class="card"><h3>Event Partnership</h3><p>Partner with IEEE TAMUSA for a technical presentation, company mixer, career session, or hands-on workshop.</p></div>
+<div class="card"><h3>In-Kind Support</h3><p>Equipment, software, technical expertise, meeting support, and other contributions can also help students.</p></div>
+</div>
+<h2>Interested in sponsoring?</h2>
+<p>Tell us what your organization would like to support and a branch officer can follow up with the appropriate information.</p>
+<a class="button" href="/Contact">Contact IEEE TAMUSA</a>
 </main>
 <div class="footer">
     <b>IEEE TAMUSA Student Branch</b><br>
@@ -36,30 +43,5 @@
       <a href="https://jagsync.tamusa.edu/organization/ieee" target="_blank" rel="noopener"><img width="40px" src="/link.png" alt="Jagsync"></a>
     </div>
   </div>
-<script>
-(async () => {
-  const list = document.getElementById("resource-list");
-  try {
-    const r = await fetch("/api/resources");
-    if (!r.ok) throw new Error("Unable to load resources.");
-    const data = await r.json();
-    if (!data.resources.length) {
-      list.innerHTML = '<div class="notice">No resources have been posted yet.</div>';
-      return;
-    }
-    list.innerHTML = "";
-    for (const item of data.resources) {
-      const card = document.createElement("article");
-      card.className = "card";
-      const h = document.createElement("h3"); h.textContent = item.title;
-      const p = document.createElement("p"); p.textContent = item.description || "";
-      const a = document.createElement("a"); a.className = "button"; a.href = item.url; a.target="_blank"; a.rel="noopener noreferrer"; a.textContent="Open Resource";
-      card.append(h,p,a);
-      list.append(card);
-    }
-  } catch (e) {
-    list.innerHTML = '<div class="notice">Resources are temporarily unavailable.</div>';
-  }
-})();
-</script>
+
 </body></html>

@@ -2,10 +2,10 @@
 <html lang="en-US">
 <head>
 <meta charset="UTF-8">
-<meta name="description" content="Resources - IEEE TAMUSA Student Branch">
+<meta name="description" content="About - IEEE TAMUSA Student Branch">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="white">
-<title>Resources | IEEE TAMUSA</title>
+<title>About | IEEE TAMUSA</title>
 <link rel="icon" href="/cropped-tamusa_bb_Logo-Black-32x32.png">
 <link href="/style.css" rel="stylesheet" type="text/css">
 
@@ -22,9 +22,16 @@
 <a class="banner-link" href="/Contact">Contact</a></div>
 </div>
 <main class="page">
-<h1>Resources</h1>
-<p class="page-intro">Useful links, documents, opportunities, and engineering resources shared by IEEE TAMUSA officials.</p>
-<div id="resource-list" class="card-grid"><div class="notice">Loading resources...</div></div>
+<h1>About IEEE TAMUSA</h1>
+<p class="page-intro">The IEEE TAMUSA Student Branch connects students at Texas A&amp;M University-San Antonio with technical learning, professional development, industry, and the broader IEEE community.</p>
+<div class="card-grid">
+<div class="card"><h3>Technical Learning</h3><p>Hands-on workshops, technical talks, and projects help students build practical engineering skills outside the classroom.</p></div>
+<div class="card"><h3>Professional Development</h3><p>Resume reviews, interview practice, networking events, and industry conversations help members prepare for engineering careers.</p></div>
+<div class="card"><h3>Community</h3><p>We bring together students interested in electrical engineering, electronics, computing, technology, and related fields.</p></div>
+<div class="card"><h3>Industry Connections</h3><p>We work with organizations and professionals to create opportunities for students to learn about real-world engineering.</p></div>
+</div>
+<div class="notice"><strong>Want to get involved?</strong> Join the branch through Jagsync or contact us about volunteering, workshops, sponsorship, or partnerships.</div>
+<a class="button" href="/Membership">Join IEEE TAMUSA</a>
 </main>
 <div class="footer">
     <b>IEEE TAMUSA Student Branch</b><br>
@@ -36,30 +43,5 @@
       <a href="https://jagsync.tamusa.edu/organization/ieee" target="_blank" rel="noopener"><img width="40px" src="/link.png" alt="Jagsync"></a>
     </div>
   </div>
-<script>
-(async () => {
-  const list = document.getElementById("resource-list");
-  try {
-    const r = await fetch("/api/resources");
-    if (!r.ok) throw new Error("Unable to load resources.");
-    const data = await r.json();
-    if (!data.resources.length) {
-      list.innerHTML = '<div class="notice">No resources have been posted yet.</div>';
-      return;
-    }
-    list.innerHTML = "";
-    for (const item of data.resources) {
-      const card = document.createElement("article");
-      card.className = "card";
-      const h = document.createElement("h3"); h.textContent = item.title;
-      const p = document.createElement("p"); p.textContent = item.description || "";
-      const a = document.createElement("a"); a.className = "button"; a.href = item.url; a.target="_blank"; a.rel="noopener noreferrer"; a.textContent="Open Resource";
-      card.append(h,p,a);
-      list.append(card);
-    }
-  } catch (e) {
-    list.innerHTML = '<div class="notice">Resources are temporarily unavailable.</div>';
-  }
-})();
-</script>
+
 </body></html>

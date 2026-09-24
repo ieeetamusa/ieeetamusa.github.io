@@ -1,0 +1,23 @@
+name = "ieee-tamusa"
+compatibility_date = "2026-09-24"
+pages_build_output_dir = "."
+
+[[d1_databases]]
+binding = "DB"
+database_name = "ieee-tamusa"
+database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+migrations_dir = "migrations"
+
+[vars]
+# One or more comma/newline separated ICS URLs.
+# Google Calendar: use the calendar's Secret address in iCal format.
+# Jagsync: use its calendar/ICS subscription URL if available.
+# College Station example supplied by the branch:
+# CALENDAR_FEEDS = "https://portal.ieeetamu.org/api/v1/calendar"
+CALENDAR_FEEDS = ""
+
+# TURNSTILE site key is public. Put it directly in Contact/index.html
+# or replace YOUR_TURNSTILE_SITE_KEY there.
+# Keep TURNSTILE_SECRET and SETUP_TOKEN as Cloudflare secrets:
+# wrangler pages secret put TURNSTILE_SECRET
+# wrangler pages secret put SETUP_TOKEN

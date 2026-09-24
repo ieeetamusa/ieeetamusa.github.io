@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Official Portal - IEEE TAMUSA Student Branch">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="white">
+<title>Official Portal | IEEE TAMUSA</title>
+<link rel="icon" href="/cropped-tamusa_bb_Logo-Black-32x32.png">
+<link href="/style.css" rel="stylesheet" type="text/css">
+
+</head>
+<body>
+<div class="banner">
+<a href="/"><img class="logo" src="/001_TAMUSA-Logo_Updated_Horizontal-Black.png" alt="Texas A&M University-San Antonio"></a>
+<div class="links"><a class="banner-link" href="/">Home</a>
+<a class="banner-link" href="/Membership">Membership</a>
+<a class="banner-link" href="/Events">Events</a>
+<a class="banner-link" href="/Resources">Resources</a>
+<a class="banner-link" href="/About">About</a>
+<a class="banner-link" href="/Sponsorship">Sponsorship</a>
+<a class="banner-link" href="/Contact">Contact</a></div>
+</div>
+<main class="page">
+<h1>IEEE TAMUSA Official Portal</h1>
+<div id="login-box" class="form-card">
+<h2>Official Login</h2>
+<form id="login-form">
+<div class="form-row"><label>Username<input name="username" required autocomplete="username"></label></div>
+<div class="form-row"><label>Password<input name="password" type="password" required autocomplete="current-password"></label></div>
+<button>Sign In</button><div id="login-status" role="status"></div>
+</form>
+</div>
+<div id="portal" hidden>
+<div class="admin-nav"><button id="logout" class="button secondary">Sign Out</button></div>
+<h2>Post a Resource</h2>
+<form id="resource-form" class="form-card" style="margin:0 0 2em 0">
+<div class="form-row"><label>Title<input name="title" maxlength="200" required></label></div>
+<div class="form-row"><label>Category<input name="category" maxlength="100" placeholder="Career, Engineering, Scholarship..."></label></div>
+<div class="form-row"><label>Description<textarea name="description" maxlength="2000"></textarea></label></div>
+<div class="form-row"><label>Resource URL<input name="url" type="url" maxlength="2000" placeholder="https://..." required></label></div>
+<button>Publish Resource</button><div id="resource-status" role="status"></div>
+</form>
+<h2>Published Resources</h2><div id="resources-admin"></div>
+<h2>Contact Messages</h2><div id="messages-admin"></div>
+</div>
+</main>
+<div class="footer">
+    <b>IEEE TAMUSA Student Branch</b><br>
+    <a href="https://ieee.org" target="_blank" rel="noopener">IEEE Global</a><br>
+    <a href="mailto:ieeetamusa@gmail.com">ieeetamusa@gmail.com</a>
+    <div class="socials">
+      <a href="https://discord.gg/X2ucbghawh" target="_blank" rel="noopener"><img width="40px" src="/discord.png" alt="Discord"></a>
+      <a href="https://www.instagram.com/ieee.tamusa?stkn=cTlqdnpnZnIweW16" target="_blank" rel="noopener"><img width="40px" src="/instagram.png" alt="Instagram"></a>
+      <a href="https://jagsync.tamusa.edu/organization/ieee" target="_blank" rel="noopener"><img width="40px" src="/link.png" alt="Jagsync"></a>
+    </div>
+  </div>
+<script>
+const loginBox=document.getElementById("login-box"), portal=document.getElementById("portal");
+const msg=(id,text,ok=false)=>{const x=document.getElementById(id);x.className="form-status "+(ok?"success":"error");x.textContent=text;};
+async function check(){const r=await fetch("/api/admin/me"); if(r.ok){loginBox.hidden=true;portal.hidden=false;load();}else{loginBox.hidden=false;portal.hidden=true;}}
+async function load(){
+ const rr=await fetch("/api/admin/resources"); const rd=await rr.json(); const box=document.getElementById("resources-admin");
+ box.innerHTML=""; for(const x of (rd.resources||[])){const row=document.createElement("div");row.className="card";const h=document.createElement("h3");h.textContent=x.title;const p=document.createElement("p");p.textContent=x.description||"";const a=document.createElement("a");a.href=x.url;a.textContent=x.url;a.target="_blank";a.rel="noopener";const b=document.createElement("button");b.textContent="Delete";b.style.marginLeft=".5em";b.onclick=async()=>{if(confirm("Delete this resource?")){await fetch("/api/admin/resources?id="+x.id,{method:"DELETE"});load();}};row.append(h,p,a,b);box.append(row);}
+ const rm=await fetch("/api/admin/messages"); const md=await rm.json(); const mb=document.getElementById("messages-admin"); mb.innerHTML="";
+ for(const x of (md.messages||[])){const c=document.createElement("div");c.className="card";const h=document.createElement("h3");h.textContent=x.name+" — "+x.email;const p=document.createElement("p");p.style.whiteSpace="pre-wrap";p.textContent=x.message;const d=document.createElement("small");d.textContent=new Date(x.created_at).toLocaleString();c.append(h,p,d);mb.append(c);}
+}
+document.getElementById("login-form").onsubmit=async e=>{e.preventDefault();const b=Object.fromEntries(new FormData(e.currentTarget));const r=await fetch("/api/admin/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(b)});const d=await r.json();if(!r.ok){msg("login-status",d.error||"Login failed");return;}await check();};
+document.getElementById("logout").onclick=async()=>{await fetch("/api/admin/logout",{method:"POST"});check();};
+document.getElementById("resource-form").onsubmit=async e=>{e.preventDefault();const b=Object.fromEntries(new FormData(e.currentTarget));const r=await fetch("/api/admin/resources",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(b)});const d=await r.json();if(!r.ok){msg("resource-status",d.error||"Could not publish");return;}msg("resource-status","Resource published.",true);e.currentTarget.reset();load();};
+check();
+</script>
+</body></html>

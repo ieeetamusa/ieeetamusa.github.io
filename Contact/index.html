@@ -1,67 +1,61 @@
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
-    <meta charset="UTF-8">
-    <meta name="description" content="TAMUSA IEEE Website">
-    <meta name="keywords" content="TAMUSA, IEEE">
-    <meta name="author" content="Alexandro Jorge Rodriguez">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="white">
-    <meta property="og:title" content="The TAMUSA IEEE Website">
-    <meta property="og:site_name" content="TAMUSA IEEE">
-    <meta property="og:url" content="">
-    <meta property="og:description" content="The TAMUSA IEEE Website">
-    <meta property="og:author" content="Alexandro Jorge Rodriguez">
-    <meta property="og:image" content="">
-    <meta property="og:image:type" content="image/png">
-    <meta property="og:image:alt" content="">
-    <meta property="og:image:width" content="624">
-    <meta property="og:image:height" content="624">
-    <title>IEEE TAMUSA</title>
-    <link rel="icon" href="/cropped-tamusa_bb_Logo-Black-32x32.png">
-    <link href="/style.css" rel="stylesheet" type="text/css">
+<meta charset="UTF-8">
+<meta name="description" content="Contact - IEEE TAMUSA Student Branch">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="white">
+<title>Contact | IEEE TAMUSA</title>
+<link rel="icon" href="/cropped-tamusa_bb_Logo-Black-32x32.png">
+<link href="/style.css" rel="stylesheet" type="text/css">
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
-<!-- HEADER BANNER FOR THE WEBSITE -->
-  <div class="banner">
-   <!--  <a href="https://ieee.org"> <img class="logo-IEEE" src="/logo-ieee.svg"></a> -->
-    <a href="/"><img class="logo" src="/001_TAMUSA-Logo_Updated_Horizontal-Black.png"></a>
-    <div class="links">
-      <a class="banner-link" href="/">Home</a>
-      <a class="banner-link" href="/Membership">Membership</a>
-      <a class="banner-link" href="/Events">Events</a>
-      <a class="banner-link" href="/Resources">Resources</a>
-      <a class="banner-link" href="/Contact">Contact</a>
-    </div>
-
-  </div>
-<!-- CONTENT -->
-  <div class="title">
-    <h1>Texas A&M University at San Antonio Student Branch</h1>
-    
-We’re Here to Help You Anytime<br>
-Phone Support<br>
-202-555-0188<br>
-<br>
-Email<br>
-Ieeetamusa@gmail.com<br>
-<br>
-Location<br>
-One University Way, San Antonio, TX 78224<br>
-  </div>
-<!-- FOOTER -->
-  <div class="footer">
+<div class="banner">
+<a href="/"><img class="logo" src="/001_TAMUSA-Logo_Updated_Horizontal-Black.png" alt="Texas A&M University-San Antonio"></a>
+<div class="links"><a class="banner-link" href="/">Home</a>
+<a class="banner-link" href="/Membership">Membership</a>
+<a class="banner-link" href="/Events">Events</a>
+<a class="banner-link" href="/Resources">Resources</a>
+<a class="banner-link" href="/About">About</a>
+<a class="banner-link" href="/Sponsorship">Sponsorship</a>
+<a class="banner-link" href="/Contact">Contact</a></div>
+</div>
+<main class="page">
+<h1>Contact IEEE TAMUSA</h1>
+<p class="page-intro">Have a question about membership, events, sponsorship, resources, or partnerships? Send the branch a message.</p>
+<form id="contact-form" class="form-card">
+<div class="form-row"><label for="name">Name</label><input id="name" name="name" required maxlength="100" autocomplete="name"></div>
+<div class="form-row"><label for="email">Email</label><input id="email" name="email" type="email" required maxlength="254" autocomplete="email"></div>
+<div class="form-row"><label for="message">Message</label><textarea id="message" name="message" required maxlength="5000"></textarea></div>
+<div class="honeypot" aria-hidden="true"><label>Leave this blank<input name="website" tabindex="-1" autocomplete="off"></label></div>
+<div class="cf-turnstile" data-sitekey="YOUR_TURNSTILE_SITE_KEY" data-theme="light"></div>
+<button type="submit">Send Message</button>
+<div id="contact-status" role="status"></div>
+</form>
+</main>
+<div class="footer">
     <b>IEEE TAMUSA Student Branch</b><br>
-    <a href="https://ieee.org">IEEE Global</a><br>
+    <a href="https://ieee.org" target="_blank" rel="noopener">IEEE Global</a><br>
     <a href="mailto:ieeetamusa@gmail.com">ieeetamusa@gmail.com</a>
     <div class="socials">
-      <a href="https://discord.gg/X2ucbghawh"><img width="40px" src="/discord.png"></a>
-      <a href="https://www.instagram.com/ieee.tamusa?stkn=cTlqdnpnZnIweW16"><img width="40px" src="/instagram.png"></a>
-      <a href="https://jagsync.tamusa.edu/organization/ieee"><img width="40px" src="/link.png"></a>
-      
+      <a href="https://discord.gg/X2ucbghawh" target="_blank" rel="noopener"><img width="40px" src="/discord.png" alt="Discord"></a>
+      <a href="https://www.instagram.com/ieee.tamusa?stkn=cTlqdnpnZnIweW16" target="_blank" rel="noopener"><img width="40px" src="/instagram.png" alt="Instagram"></a>
+      <a href="https://jagsync.tamusa.edu/organization/ieee" target="_blank" rel="noopener"><img width="40px" src="/link.png" alt="Jagsync"></a>
     </div>
   </div>
-
-
-</body>
-</html>
+<script>
+document.getElementById("contact-form").addEventListener("submit", async (ev) => {
+  ev.preventDefault();
+  const form=ev.currentTarget, status=document.getElementById("contact-status");
+  status.className="form-status"; status.textContent="Sending...";
+  try {
+    const r=await fetch("/api/contact",{method:"POST",body:new FormData(form)});
+    const data=await r.json();
+    if(!r.ok) throw new Error(data.error || "Unable to send your message.");
+    status.className="form-status success"; status.textContent="Thanks! Your message has been sent.";
+    form.reset();
+  } catch(e) { status.className="form-status error"; status.textContent=e.message; }
+});
+</script>
+</body></html>

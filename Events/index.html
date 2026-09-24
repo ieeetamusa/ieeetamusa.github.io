@@ -1,69 +1,66 @@
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
-    <meta charset="UTF-8">
-    <meta name="description" content="TAMUSA IEEE Website">
-    <meta name="keywords" content="TAMUSA, IEEE">
-    <meta name="author" content="Alexandro Jorge Rodriguez">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="white">
-    <meta property="og:title" content="The TAMUSA IEEE Website">
-    <meta property="og:site_name" content="TAMUSA IEEE">
-    <meta property="og:url" content="">
-    <meta property="og:description" content="The TAMUSA IEEE Website">
-    <meta property="og:author" content="Alexandro Jorge Rodriguez">
-    <meta property="og:image" content="">
-    <meta property="og:image:type" content="image/png">
-    <meta property="og:image:alt" content="">
-    <meta property="og:image:width" content="624">
-    <meta property="og:image:height" content="624">
-    <title>IEEE TAMUSA</title>
-    <link rel="icon" href="/cropped-tamusa_bb_Logo-Black-32x32.png">
-    <link href="/style.css" rel="stylesheet" type="text/css">
+<meta charset="UTF-8">
+<meta name="description" content="Events - IEEE TAMUSA Student Branch">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="white">
+<title>Events | IEEE TAMUSA</title>
+<link rel="icon" href="/cropped-tamusa_bb_Logo-Black-32x32.png">
+<link href="/style.css" rel="stylesheet" type="text/css">
+
 </head>
 <body>
-<!-- HEADER BANNER FOR THE WEBSITE -->
-  <div class="banner">
-   <!-- <a href="https://ieee.org"> <img class="logo-IEEE" src="/logo-ieee.svg"></a>-->
-    <a href="/"><img class="logo" src="/001_TAMUSA-Logo_Updated_Horizontal-Black.png"></a>
-    <div class="links">
-      <a class="banner-link" href="/">Home</a>
-      <a class="banner-link" href="/Membership">Membership</a>
-      <a class="banner-link" href="/Events">Events</a>
-      <a class="banner-link" href="/Resources">Resources</a>
-      <a class="banner-link" href="/Contact">Contact</a>
-    </div>
-
-  </div>
-<!-- CONTENT FOR EVENTS -->
-  <div class="upcoming-events">
-    <div class="uET">Upcoming Events</div>
-    <div class="event-container">
-      <div class="eT">IEEE Mixer / Risk Management</div><br>
-      <div class="eD">Thursday, September 17 at 5:00PM CDT</div>
-      <div class="eL">STEM 227</div>
-      <a href="https://jagsync.tamusa.edu/event/12715919" target="_blank" class="RSVP">RSVP</a>
-    </div>
-    <div class="event-container">
-      <div class="eT">IEEE TAMUSA Community Sevrvice: Local Church Cleanup</div>
-      <div class="eD">Saturday, October 3 at 8:00AM CDT</div>
-      <div class="eL">Soth San Antonio Baptist Church</div>
-      <a href="https://jagsync.tamusa.edu/event/12724376" target="_blank" class="RSVP">RSVP</a>
-    </div>
-  </div>
-<!-- FOOTER -->
-  <div class="footer">
+<div class="banner">
+<a href="/"><img class="logo" src="/001_TAMUSA-Logo_Updated_Horizontal-Black.png" alt="Texas A&M University-San Antonio"></a>
+<div class="links"><a class="banner-link" href="/">Home</a>
+<a class="banner-link" href="/Membership">Membership</a>
+<a class="banner-link" href="/Events">Events</a>
+<a class="banner-link" href="/Resources">Resources</a>
+<a class="banner-link" href="/About">About</a>
+<a class="banner-link" href="/Sponsorship">Sponsorship</a>
+<a class="banner-link" href="/Contact">Contact</a></div>
+</div>
+<main class="page">
+<h1>Events</h1>
+<p class="page-intro">Events are automatically pulled from the configured calendar feed. RSVP buttons use the event's registration link when the feed provides one.</p>
+<div id="event-list" class="event-list"><div class="notice">Loading upcoming events...</div></div>
+<p class="notice">If an event does not have an RSVP link in the source calendar, its card will show the source event link instead.</p>
+</main>
+<div class="footer">
     <b>IEEE TAMUSA Student Branch</b><br>
-    <a href="https://ieee.org">IEEE Global</a><br>
+    <a href="https://ieee.org" target="_blank" rel="noopener">IEEE Global</a><br>
     <a href="mailto:ieeetamusa@gmail.com">ieeetamusa@gmail.com</a>
     <div class="socials">
-      <a href="https://discord.gg/X2ucbghawh"><img width="40px" src="/discord.png"></a>
-      <a href="https://www.instagram.com/ieee.tamusa?stkn=cTlqdnpnZnIweW16"><img width="40px" src="/instagram.png"></a>
-      <a href="https://jagsync.tamusa.edu/organization/ieee"><img width="40px" src="/link.png"></a>
-      
+      <a href="https://discord.gg/X2ucbghawh" target="_blank" rel="noopener"><img width="40px" src="/discord.png" alt="Discord"></a>
+      <a href="https://www.instagram.com/ieee.tamusa?stkn=cTlqdnpnZnIweW16" target="_blank" rel="noopener"><img width="40px" src="/instagram.png" alt="Instagram"></a>
+      <a href="https://jagsync.tamusa.edu/organization/ieee" target="_blank" rel="noopener"><img width="40px" src="/link.png" alt="Jagsync"></a>
     </div>
   </div>
-
-
-</body>
-</html>
+<script>
+function eventDate(value) {
+  const d = new Date(value);
+  if (Number.isNaN(d.getTime())) return value || "";
+  return d.toLocaleString(undefined,{weekday:"long",month:"long",day:"numeric",year:"numeric",hour:"numeric",minute:"2-digit",timeZoneName:"short"});
+}
+(async () => {
+  const list=document.getElementById("event-list");
+  try {
+    const r=await fetch("/api/events");
+    const data=await r.json();
+    if(!r.ok) throw new Error(data.error || "Unable to load events.");
+    if(!data.events.length){ list.innerHTML='<div class="notice">No upcoming events are currently published.</div>'; return; }
+    list.innerHTML="";
+    for(const e of data.events){
+      const card=document.createElement("article"); card.className="event-card";
+      const h=document.createElement("div"); h.className="eT"; h.textContent=e.title;
+      const d=document.createElement("div"); d.className="event-meta"; d.textContent=eventDate(e.start);
+      if(e.location){ const l=document.createElement("div"); l.className="event-meta"; l.textContent=e.location; card.append(l); }
+      if(e.description){ const desc=document.createElement("p"); desc.textContent=e.description; card.append(desc); }
+      if(e.url){ const a=document.createElement("a"); a.className="button"; a.href=e.url; a.target="_blank"; a.rel="noopener noreferrer"; a.textContent=e.rsvpUrl ? "RSVP" : "Event Details"; card.append(a); }
+      card.prepend(d); card.prepend(h); list.append(card);
+    }
+  } catch(e) { list.innerHTML='<div class="notice form-status error">'+(e.message||"Events are temporarily unavailable.")+'</div>'; }
+})();
+</script>
+</body></html>
