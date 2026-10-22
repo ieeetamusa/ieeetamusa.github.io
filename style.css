@@ -1,40 +1,59 @@
 /* CSS WRITTEN BY ALEXANDRO RODRIGUEZ SEP 10 2026 */
+:root {
+  --blue: #069;
+  --blue-hover: #0077b3;
+  --blue-dark: #005b89;
+  --text-muted: #666;
+  --border: #CCC;
+  --footer-bg: #DDD;
+}
 body {
-  margin: 0px;
+  margin: 0;
   font-family: sans-serif;
 }
+:focus-visible {
+  outline: 3px solid var(--blue-hover);
+  outline-offset: 2px;
+}
+.skip-link {
+  position: absolute;
+  left: -10000px;
+}
+.skip-link:focus {
+  left: 1em;
+  top: 1em;
+  background: white;
+  padding: .5em 1em;
+  z-index: 10;
+}
+
 /* CSS FOR THE BANNER */
 .banner {
-  background: #069;
-  padding:1em;
-  border-bottom: solid #005b89 2px;
+  display: flow-root;
+  min-height: 5em; /* reserves space while site.js fills it in */
+  background: var(--blue);
+  padding: 1em;
+  border-bottom: solid var(--blue-dark) 2px;
 }
 .logo {
   max-height: 5em;
   border-radius: 1em;
-  background:white;
-  float:left;
-}
-.logo-IEEE {
-  height: 2.3em;
-  border-radius: .25em;
-  background:white;
-  padding: .25em;
-  float:right;
+  background: white;
+  float: left;
 }
 .links {
-  text-align:left;
+  text-align: left;
 }
 .banner-link {
-  text-align:center;
+  text-align: center;
   display: inline-block;
   padding: 1.6em 2.3em;
   color: #ffffff;
-  font-size:1.2em;
-  text-decoration:none;
+  font-size: 1.2em;
+  text-decoration: none;
 }
-.banner-link:hover {
-  text-decoration:underline;
+.banner-link:hover, .banner-link[aria-current="page"] {
+  text-decoration: underline;
 }
 
 /* CSS FOR THE CONTENT */
@@ -43,140 +62,115 @@ body {
   margin: 7em 7em 5em;
 }
 h1 {
-  font-size:3em;
+  font-size: 3em;
 }
-p {
-  color: #666;
+p, li {
+  color: var(--text-muted);
   font-size: 1.2em;
 }
 h2 {
-  font-size:2em;
+  font-size: 2em;
 }
-.join-button, .RSVP {
-  padding:.7em;
-  text-align:center;
-  border-radius:.25em;
-  background: #069;
-  color:white;
+.join-button {
+  padding: .7em;
+  text-align: center;
+  border-radius: .25em;
+  background: var(--blue);
+  color: white;
   display: inline-block;
-  margin-top:2em;
-  text-decoration:none;
+  margin-top: 2em;
+  text-decoration: none;
 }
-.join-button:hover, .RSVP:hover {
-  background: #0077b3;
+.join-button:hover {
+  background: var(--blue-hover);
+}
+.join-button.secondary {
+  background: white;
+  color: var(--blue);
+  border: solid 2px var(--blue);
+}
+.join-button.secondary:hover {
+  background: #f4f8fa;
 }
 .social-content {
-  margin-top:5em;
+  margin-top: 5em;
 }
 .sC {
-  display:inline-block;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .5em;
   padding: 1em;
-  border: 2px solid #CCC;
-  border-radius:.25em;
-  color: #666;
+  border: 2px solid var(--border);
+  border-radius: .25em;
+  color: var(--text-muted);
+  text-decoration: none;
 }
 .sCT {
-  color: #069;
-  text-decoration:none;
-  font-weight:bold;
+  color: var(--blue);
+  font-weight: bold;
 }
-.sCT:hover {
-  color: #0077b3;
+.sC:hover .sCT {
+  color: var(--blue-hover);
 }
 .description {
   margin: 3em 3em 1em;
-  border: solid 2px #CCC;
+  border: solid 2px var(--border);
   border-radius: .25em;
-  padding:1em 3em;
+  padding: 1em 3em;
 }
+.description ul {
+  display: inline-block;
+  text-align: left;
+}
+
 /* FOOTER */
 .footer {
-  padding:2em;
-  background: #DDD;
-  border-top: solid #CCCCCC 2px;
+  padding: 2em;
+  background: var(--footer-bg);
+  border-top: solid var(--border) 2px;
 }
-a.footer {
+.footer a {
   color: #111;
 }
-.socials {
 
-}
 /* MEMBERSHIP CONTENT */
 .membership {
-  text-align:center;
-  margin: 12em 0px 15em;
+  text-align: center;
+  margin: 12em 0 15em;
 }
 .membership-button {
-  display:inline-block;
-  border: solid 2px #CCC;
-  padding:2em; 
+  display: inline-block;
+  vertical-align: top;
+  border: solid 2px var(--border);
+  padding: 2em;
+}
+.membership-button ul {
+  list-style: none;
+  padding: 0;
+  margin: 2.5em 0 0;
+}
+.membership-button li {
+  font-size: 1em;
+  color: inherit;
 }
 .mT, .mTA {
   border-radius: .25em;
-  background: #069;
+  background: var(--blue);
   color: white;
-  padding:1em;
+  padding: 1em;
   text-decoration: none;
 }
 .mTA {
   background: white;
-  color:#666;
-  border:solid #CCC 1px;
+  color: var(--text-muted);
+  border: solid var(--border) 1px;
 }
 .mT:hover {
-  background: #0077b3;
+  background: var(--blue-hover);
 }
 .mTA:hover {
-  background: #DDD;
-}
-/* CSS FOR EVENTS PAGE */
-.upcoming-events {
-  margin:5em 2em 20em;
-}
-.uET {
-  font-size:2em;
-  margin:2em 0px;
-}
-.event-container {
-  border: solid 2px #CCC;
-  border-radius: .25em;
-  padding: 2em;
-  max-width: 26em;
-  display:inline-block;
-}
-.RSVP {
-  margin:0px;
-  display:block;
-}
-.eT {
-  font-weight: bold;
-}
-.eD {
-  color: #666;
-}
-@media only screen and (max-width: 1317px) {
-  .links {
-    margin-top: 5em;
-    text-align: center;
-  }
-}
-@media only screen and (max-width: 865px) {
-  .links {
-     margin-top: 3em;
-  }
-  .logo {
-    max-height: 2.8em;
-  }
-  .banner-link {
-    padding: .2em .4em;
-    font-size: 1em;
-  }
-  h1 {
-   font-size:2em;
-  }
-  .title {
-     margin:5em 0em;
-   }
+  background: var(--footer-bg);
 }
 
 /* SITE EXTENSIONS */
@@ -193,7 +187,7 @@ a.footer {
   gap: 1em;
 }
 .card, .form-card {
-  border: 2px solid #CCC;
+  border: 2px solid var(--border);
   border-radius: .35em;
   padding: 1.4em;
   background: #fff;
@@ -204,37 +198,55 @@ a.footer {
   display: inline-block;
   border: 0;
   border-radius: .25em;
-  background: #069;
+  background: var(--blue);
   color: white;
   padding: .75em 1.1em;
   text-decoration: none;
   cursor: pointer;
   font-size: 1em;
 }
-.button:hover, button:hover { background: #0077b3; }
+.button:hover, button:hover { background: var(--blue-hover); }
 .button.secondary { background: #555; }
 .form-card { max-width: 760px; margin: 0 auto; }
+.form-card-left { margin: 0 0 2em; }
 .form-row { margin-bottom: 1em; }
-.form-row label { display:block; font-weight:bold; margin-bottom:.35em; }
+.form-row label { display: block; font-weight: bold; margin-bottom: .35em; }
 .form-row input, .form-row textarea, .form-row select {
-  width:100%; box-sizing:border-box; padding:.75em; border:1px solid #bbb;
-  border-radius:.25em; font:inherit;
+  width: 100%; box-sizing: border-box; padding: .75em; border: 1px solid #bbb;
+  border-radius: .25em; font: inherit;
 }
 .form-row textarea { min-height: 150px; resize: vertical; }
-.form-status { margin-top:1em; padding:.75em; border-radius:.25em; }
-.form-status.success { background:#e8f5e9; color:#205522; }
-.form-status.error { background:#ffebee; color:#7f1d1d; }
-.event-list { display:grid; gap:1em; }
-.event-card { border:2px solid #CCC; border-radius:.35em; padding:1.25em; }
-.event-card .eT { font-size:1.2em; margin-bottom:.4em; }
-.event-meta { color:#666; margin:.3em 0; }
-.admin-nav { display:flex; gap:.5em; flex-wrap:wrap; margin-bottom:1.5em; }
-table.admin-table { width:100%; border-collapse:collapse; }
-.admin-table th,.admin-table td { border:1px solid #ccc; padding:.6em; text-align:left; vertical-align:top; }
-.notice { padding:1em; border-left:4px solid #069; background:#f4f8fa; margin:1em 0; }
-.honeypot { position:absolute; left:-10000px; width:1px; height:1px; overflow:hidden; }
+.form-status { margin-top: 1em; padding: .75em; border-radius: .25em; }
+.form-status.success { background: #e8f5e9; color: #205522; }
+.form-status.error { background: #ffebee; color: #7f1d1d; }
+.event-list { display: grid; gap: 1em; }
+.event-card { border: 2px solid var(--border); border-radius: .35em; padding: 1.25em; }
+.event-card .eT { font-size: 1.2em; font-weight: bold; margin: 0 0 .4em; }
+.event-meta { color: var(--text-muted); margin: .3em 0; }
+.officer { text-align: center; }
+.officer img { border-radius: 50%; object-fit: cover; }
+.officer h2 { font-size: 1.2em; margin: .5em 0 .2em; }
+.officer-role { color: var(--blue); font-weight: bold; margin: 0 0 .5em; }
+.admin-nav { display: flex; gap: .5em; flex-wrap: wrap; margin-bottom: 1.5em; }
+.notice { padding: 1em; border-left: 4px solid var(--blue); background: #f4f8fa; margin: 1em 0; }
+.honeypot { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+
+@media only screen and (max-width: 1317px) {
+  .links {
+    margin-top: 5em;
+    text-align: center;
+  }
+}
 @media only screen and (max-width: 865px) {
-  .page { margin-top:3em; }
-  .form-card { padding:1em; }
-  table.admin-table { font-size:.9em; }
+  .links { margin-top: 3em; }
+  .logo { max-height: 2.8em; }
+  .banner-link {
+    padding: .2em .4em;
+    font-size: 1em;
+  }
+  h1 { font-size: 2em; }
+  .title { margin: 5em 0; }
+  .description { margin: 2em 1em 1em; padding: 1em; }
+  .page { margin-top: 3em; }
+  .form-card { padding: 1em; }
 }

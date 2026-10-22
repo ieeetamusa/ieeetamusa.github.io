@@ -2,65 +2,65 @@
 <html lang="en-US">
 <head>
 <meta charset="UTF-8">
-<meta name="description" content="Events - IEEE TAMUSA Student Branch">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="white">
 <title>Events | IEEE TAMUSA</title>
+<meta name="description" content="Upcoming IEEE TAMUSA workshops, corporate mixers, and branch meetings at Texas A&M University-San Antonio.">
+<meta property="og:title" content="Events | IEEE TAMUSA">
+<meta property="og:description" content="Upcoming IEEE TAMUSA workshops, corporate mixers, and branch meetings at Texas A&M University-San Antonio.">
+<meta property="og:site_name" content="IEEE TAMUSA">
 <link rel="icon" href="/cropped-tamusa_bb_Logo-Black-32x32.png">
-<link href="/style.css" rel="stylesheet" type="text/css">
-
+<link rel="stylesheet" href="/style.css">
+<script src="/site.js" defer></script>
 </head>
 <body>
-<div class="banner">
-<a href="/"><img class="logo" src="/001_TAMUSA-Logo_Updated_Horizontal-Black.png" alt="Texas A&M University-San Antonio"></a>
-<div class="links"><a class="banner-link" href="/">Home</a>
-<a class="banner-link" href="/Membership">Membership</a>
-<a class="banner-link" href="/Events">Events</a>
-<!-- <a class="banner-link" href="/Resources">Resources</a> -->
-<a class="banner-link" href="/About">About</a>
-<a class="banner-link" href="/Sponsorship">Sponsorship</a>
-<a class="banner-link" href="/Contact">Contact</a></div>
-</div>
-<main class="page">
+<header id="site-header" class="banner"></header>
+<main id="main" class="page">
 <h1>Events</h1>
-<p class="page-intro">Events are automatically pulled from the configured calendar feed. RSVP buttons use the event's registration link when the feed provides one.</p>
+<p class="page-intro">Workshops, mixers, and meetings coming up on campus. Times are shown in San Antonio time.</p>
+<p><a href="/Newsletter">Get new events by email &rarr;</a></p>
 <div id="event-list" class="event-list"><div class="notice">Loading upcoming events...</div></div>
-<p class="notice">If an event does not have an RSVP link in the source calendar, its card will show the source event link instead.</p>
 </main>
-<div class="footer">
-    <b>IEEE TAMUSA Student Branch</b><br>
-    <a href="https://ieee.org" target="_blank" rel="noopener">IEEE Global</a><br>
-    <a href="mailto:ieeetamusa@gmail.com">ieeetamusa@gmail.com</a>
-    <div class="socials">
-      <a href="https://discord.gg/X2ucbghawh" target="_blank" rel="noopener"><img width="40px" src="/discord.png" alt="Discord"></a>
-      <a href="https://www.instagram.com/ieee.tamusa?stkn=cTlqdnpnZnIweW16" target="_blank" rel="noopener"><img width="40px" src="/instagram.png" alt="Instagram"></a>
-      <a href="https://jagsync.tamusa.edu/organization/ieee" target="_blank" rel="noopener"><img width="40px" src="/link.png" alt="Jagsync"></a>
-    </div>
-  </div>
+<footer id="site-footer" class="footer"></footer>
 <script>
-function eventDate(value) {
-  const d = new Date(value);
-  if (Number.isNaN(d.getTime())) return value || "";
-  return d.toLocaleString(undefined,{weekday:"long",month:"long",day:"numeric",year:"numeric",hour:"numeric",minute:"2-digit",timeZoneName:"short"});
+const TZ = "America/Chicago";
+function eventDate(e) {
+  // All-day events arrive as a bare date (YYYY-MM-DD); format it in UTC so it doesn't slip a day.
+  const opts = e.allDay
+    ? {weekday:"long", month:"long", day:"numeric", year:"numeric", timeZone:"UTC"}
+    : {weekday:"long", month:"long", day:"numeric", year:"numeric", hour:"numeric", minute:"2-digit", timeZone:TZ, timeZoneName:"short"};
+  return new Date(e.start).toLocaleString("en-US", opts);
+}
+function el(tag, className, text) {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text) node.textContent = text;
+  return node;
+}
+function showNotice(list, text, isError) {
+  list.replaceChildren(el("div", isError ? "notice form-status error" : "notice", text));
 }
 (async () => {
-  const list=document.getElementById("event-list");
+  const list = document.getElementById("event-list");
   try {
-    const r=await fetch("/api/events");
-    const data=await r.json();
-    if(!r.ok) throw new Error(data.error || "Unable to load events.");
-    if(!data.events.length){ list.innerHTML='<div class="notice">No upcoming events are currently published.</div>'; return; }
-    list.innerHTML="";
-    for(const e of data.events){
-      const card=document.createElement("article"); card.className="event-card";
-      const h=document.createElement("div"); h.className="eT"; h.textContent=e.title;
-      const d=document.createElement("div"); d.className="event-meta"; d.textContent=eventDate(e.start);
-      if(e.location){ const l=document.createElement("div"); l.className="event-meta"; l.textContent=e.location; card.append(l); }
-      if(e.description){ const desc=document.createElement("p"); desc.textContent=e.description; card.append(desc); }
-      if(e.url){ const a=document.createElement("a"); a.className="button"; a.href=e.url; a.target="_blank"; a.rel="noopener noreferrer"; a.textContent=e.rsvpUrl ? "RSVP" : "Event Details"; card.append(a); }
-      card.prepend(d); card.prepend(h); list.append(card);
-    }
-  } catch(e) { list.innerHTML='<div class="notice form-status error">'+(e.message||"Events are temporarily unavailable.")+'</div>'; }
+    const r = await fetch("/api/events");
+    if (!r.ok) throw new Error();
+    const {events} = await r.json();
+    if (!events.length) return showNotice(list, "No upcoming events right now. Check Jagsync or Discord for the latest.");
+    list.replaceChildren(...events.map(e => {
+      const card = el("article", "event-card");
+      card.append(el("h2", "eT", e.title), el("div", "event-meta", eventDate(e)));
+      if (e.location) card.append(el("div", "event-meta", e.location));
+      if (e.description) card.append(el("p", "", e.description));
+      if (e.url) {
+        const a = el("a", "button", "Details / RSVP");
+        a.href = e.url; a.target = "_blank"; a.rel = "noopener noreferrer";
+        card.append(a);
+      }
+      return card;
+    }));
+  } catch {
+    showNotice(list, "Events are temporarily unavailable.", true);
+  }
 })();
 </script>
 </body></html>

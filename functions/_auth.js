@@ -1,5 +1,5 @@
 
-const SESSION_DAYS = 7;
+export const SESSION_DAYS = 7;
 const enc = new TextEncoder();
 
 function b64(bytes) {
