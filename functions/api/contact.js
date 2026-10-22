@@ -1,5 +1,5 @@
 
-function json(data,status=200){return new Response(JSON.stringify(data),{status,headers:{"Content-Type":"application/json; charset=utf-8","Cache-Control":"no-store"}});}
+import {json} from "../_auth.js";
 export async function onRequestPost({request,env}) {
   if(request.headers.get("Content-Type")?.startsWith("multipart/form-data")!==true &&
      request.headers.get("Content-Type")?.startsWith("application/x-www-form-urlencoded")!==true)

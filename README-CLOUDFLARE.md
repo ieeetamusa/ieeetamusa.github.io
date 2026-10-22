@@ -1,5 +1,12 @@
 # IEEE TAMUSA Cloudflare setup
 
+The site deploys on **Cloudflare Pages** (the `functions/` API routes do not run on GitHub Pages). There is no build step: set the build output directory to `.`.
+
+## Editing the site
+- Navigation and footer live in `site.js`; every page loads it. Change links there once.
+- Colors are CSS variables at the top of `style.css`.
+- Officers: edit the cards in `Officers/index.html`, then uncomment the Officers entry in `site.js`.
+
 This version adds:
 - About and Sponsorship pages.
 - Automatic event loading from one or more ICS feeds, including Google Calendar and compatible Jagsync feeds.
@@ -13,7 +20,7 @@ Create a D1 database and apply `migrations/0001_initial.sql`.
 Bind it to Pages/Workers as `DB`.
 
 ## 2. Turnstile
-Create a Turnstile widget for your production hostname. Replace `YOUR_TURNSTILE_SITE_KEY` in `Contact/index.html` with the public site key.
+Create a Turnstile widget for your production hostname and put its public site key in the `data-sitekey` attribute in `Contact/index.html`.
 
 Set the private secret as:
 `wrangler pages secret put TURNSTILE_SECRET`
