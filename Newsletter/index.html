@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Newsletter | IEEE TAMUSA</title>
+<meta name="description" content="Get IEEE TAMUSA events, workshops, and opportunities in your inbox.">
+<meta property="og:title" content="Newsletter | IEEE TAMUSA">
+<meta property="og:description" content="Get IEEE TAMUSA events, workshops, and opportunities in your inbox.">
+<meta property="og:site_name" content="IEEE TAMUSA">
+<link rel="icon" href="/cropped-tamusa_bb_Logo-Black-32x32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/style.css">
+<script src="/site.js" defer></script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+</head>
+<body>
+<header id="site-header" class="site-header"></header>
+
+<main id="main" class="page">
+<p class="eyebrow">Newsletter</p>
+  <h1>Newsletter</h1>
+  <p class="page-intro">Upcoming events, workshops, and opportunities from IEEE TAMUSA, sent to your inbox. Unsubscribe anytime with the link in every email.</p>
+  <form id="subscribe-form" class="form-card">
+    <div class="form-row"><label for="email">Email</label><input id="email" name="email" type="email" required maxlength="254" autocomplete="email"></div>
+    <div class="honeypot" aria-hidden="true"><label>Leave this blank<input name="website" tabindex="-1" autocomplete="off"></label></div>
+    <div class="cf-turnstile" data-sitekey="0x4AAAAAAFJIP_6QnexWpE5w" data-theme="light"></div>
+    <button type="submit">Subscribe</button>
+    <div id="subscribe-status" role="status"></div>
+  </form>
+</main>
+
+<footer id="site-footer" class="site-footer"></footer>
+<script>
+document.getElementById("subscribe-form").addEventListener("submit", async (ev) => {
+  ev.preventDefault();
+  const form = ev.currentTarget, status = document.getElementById("subscribe-status");
+  status.className = "form-status"; status.textContent = "Subscribing...";
+  try {
+    const r = await fetch("/api/subscribe", {method: "POST", body: new FormData(form)});
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(data.error || "Unable to subscribe right now.");
+    status.className = "form-status success"; status.textContent = "You're subscribed!";
+    form.reset();
+  } catch (e) { status.className = "form-status error"; status.textContent = e.message; }
+  turnstile.reset(); // tokens are single-use
+});
+</script>
+</body>
+</html>
